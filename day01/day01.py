@@ -1,6 +1,6 @@
-with open("day01/day01.txt") as f:
-    rots = f.read().strip().splitlines()
-    f.close()
+from util import *
+
+rots = get_data("day01/day01.txt", "lines")
     
 pos = 50
 pw1, pw2 = 0, 0
