@@ -1,3 +1,7 @@
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 from util import *
 
 rots = get_data("day01/day01.txt", "lines")

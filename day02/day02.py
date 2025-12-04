@@ -1,4 +1,8 @@
 import re
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 from util import *
 
 data = get_data("day02/day02.txt", "comma")
