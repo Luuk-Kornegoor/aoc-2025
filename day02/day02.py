@@ -10,7 +10,7 @@ data = get_data("day02/day02.txt", "comma")
 def solve(data: list[str], regex:str) -> int:
     sum = 0
     for pair in data:
-        lower, upper = pair.split("-")
+        lower, upper = parse_range(pair)
         for i in range(int(lower), int(upper) + 1):
             if re.match(regex, str(i)):
                 sum += i

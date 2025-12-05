@@ -6,7 +6,7 @@ from util import *
 
 grid = get_data("day04/day04.txt", "lines")
 
-def check_position(grid: list[str], r: int, c: int) -> int:
+def is_free(grid: list[str], r: int, c: int) -> int:
     # Controleer max. acht posities rondom grid[r][c]
     count = 0
     rows = len(grid)
@@ -19,7 +19,7 @@ def check_position(grid: list[str], r: int, c: int) -> int:
             check_r, check_c = r + dr, c + dc
             if 0 <= check_r < rows and 0 <= check_c < cols and grid[check_r][check_c] == '@':
                 count += 1
-    return count
+    return count < 4
 
 def solve_part_1(grid: list[str]) -> int:
     # Tel beschikbare '@'
@@ -31,7 +31,7 @@ def solve_part_1(grid: list[str]) -> int:
         for c in range(cols):
             if grid[r][c] == '.':
                 continue
-            if check_position(grid, r, c) < 4:
+            if is_free(grid, r, c):
                 total += 1
     return total
 
@@ -49,7 +49,7 @@ def solve_part_2(grid: list[str]) -> int:
             for c in range(cols):
                 if grid[r][c] != '@':
                     continue
-                if check_position(grid, r, c) < 4:
+                if is_free(grid, r, c):
                     to_remove.append((r, c))
                     stable = False
         for r, c in to_remove:
