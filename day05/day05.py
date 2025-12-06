@@ -4,7 +4,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from util import *
 
-data = get_data("day05/day05.txt", "ranges_ids")
+data = get_data("day05/day05.txt", "lines")
 split_index = data.index("")
 ranges = data[:split_index]
 ids = data[split_index + 1 :]

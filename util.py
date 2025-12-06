@@ -2,11 +2,12 @@ def get_data(file_path: str, type:str) -> list[str]:
     with open(file_path) as f:
         if type == "lines":
             data = f.read().strip().splitlines()
-            
         elif type == "comma":
             data = f.read().strip().split(",")
+        elif type == "cephalopod":
+            data = f.read().split("\n")
         else:
-            raise ValueError("Ongeldig type opgegeven. Gebruik 'lines' of 'comma'.")
+            raise ValueError("Ongeldig type opgegeven. Gebruik 'lines', 'comma', 'cephalopod'.")
         f.close()
     return data
 
