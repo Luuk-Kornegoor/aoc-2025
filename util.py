@@ -1,3 +1,5 @@
+import numpy as np
+
 def get_data(file_path: str, type:str) -> list[str]:
     with open(file_path) as f:
         if type == "lines":
@@ -14,3 +16,6 @@ def get_data(file_path: str, type:str) -> list[str]:
 def parse_range(range_str: str) -> tuple[int, int]:
     start_str, end_str = range_str.split("-")
     return int(start_str), int(end_str)
+
+def dist(p1, p2):
+    return np.sqrt(sum((p1[i] - p2[i]) ** 2 for i in range(len(p1))))

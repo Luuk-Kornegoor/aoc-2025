@@ -4,16 +4,13 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import numpy as np
 from itertools import combinations
 
-from util import get_data
+from util import *
 
 data = get_data('day08/day08.txt', 'lines')
 
 def parse_line(line):
     x, y, z = line.split(',')
     return [int(x), int(y), int(z)]
-
-def dist(p1, p2):
-    return np.sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2 + (p1[2] - p2[2]) ** 2)
 
 def get_sorted_distances(points):
     n = len(points)
