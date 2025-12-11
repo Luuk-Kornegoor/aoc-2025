@@ -4,6 +4,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from util import *
 from functools import lru_cache
+from itertools import permutations
 
 data = get_data("day11/day11.txt", "lines")
 
@@ -19,7 +20,7 @@ def parse_input(data):
 
 def count_paths(graph, start, end):
     @lru_cache(None)
-    # Simpele DFS om alle paden te tellen
+    # Simpele DFS om paden te tellen
     def dfs(node):
         if node == end:
             return 1
@@ -28,32 +29,35 @@ def count_paths(graph, start, end):
 
 
 def solve(graph, start, end, must_visit = None):
+    # Part 1: Directe verbinding start -> end
     if must_visit is None or len(must_visit) == 0:
         return count_paths(graph, start, end)
     
-    # Observatie: 2 mogelijke volgordes om a en b te bezoeken
-    # Aantal paden van (start -> end) via must_visit := [a,b] 
-    #   = 
-    # aantal paden (start -> a) * (a -> b) * (b -> end)
-    #   +
-    # aantal paden (start -> b) * (b -> a) * (a -> end)
-    # TODO: generaliseren voor len(must_visit) > 2
+    # Part 2: Paden die langs alle must_visit nodes gaan
+    # Aantal paden start -> must_visit[0] -> ... -> must_visit[n] -> end
+    #       =
+    # Som over alle permutaties van must_visit van:
+    #       Aantal paden start -> must_visit[0] 
+    #           *
+    #       Aantal paden must_visit[0] -> must_visit[1] *
+    #           ...
+    #       Aantal paden must_visit[n] -> end
     
-    a, b = must_visit
-
-    case1 = (
-        count_paths(graph, start, a) *
-        count_paths(graph, a, b) *
-        count_paths(graph, b, end)
-    )
-
-    case2 = (
-        count_paths(graph, start, b) *
-        count_paths(graph, b, a) *
-        count_paths(graph, a, end)
-    )
-
-    return case1 + case2
+    total = 0
+    
+    for order in permutations(must_visit):
+        seq = [start] + list(order) + [end]
+        segment_total = 1
+        for i in range(len(seq) - 1):
+            segment_paths = count_paths(graph, seq[i], seq[i+1])
+            if segment_paths == 0:
+                segment_total = 0
+                break
+            segment_total *= segment_paths
+        
+        total += segment_total
+    
+    return total
 
 print("Part 1:", solve(parse_input(data), "you", "out"))
 print("Part 2:", solve(parse_input(data), "svr", "out", must_visit=["dac", "fft"]))
